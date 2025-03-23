@@ -21,9 +21,6 @@ global_job_config:
       - checkout
       - python -m venv venv
       - source venv/bin/activate
-      - mkdir -p .pip_cache
-      - cache restore
-      - pip install --cache-dir .pip_cache -r requirements.txt
 blocks:
   - name: "\U0001F6E0️ Setup and Cache"
     dependencies: []
@@ -31,7 +28,7 @@ blocks:
       jobs:
         - name: "\U0001F4E6 Install Dependencies"
           commands:
-            - cache store
+            - pip install -r requirements.txt
   - name: "\U0001F50D Code Quality"
     dependencies:
       - "\U0001F6E0️ Setup and Cache"
@@ -58,4 +55,3 @@ blocks:
         - name: Build wheel
           commands:
             - make build
-            - artifact push workflow dist
